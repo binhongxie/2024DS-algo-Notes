@@ -1,6 +1,51 @@
 **Python算法模板及注释(updating)**
 
-[TOC]
+# 素数筛
+
+#### 埃氏筛。时间复杂度：O(nloglogn)
+
+```python
+import time
+start_time = time.time()  # 监控运行时间
+# n = int(input('Please input a range:'))
+n = 10 ** 8
+list_prime = [True] * (n + 3)
+end = int(n ** 0.5) + 1
+for i in range(2, end):  # 从2开始，将已知的素数作为1~n各数的质因数，筛去这些合数
+    if list_prime[i]:
+        for j in range(i ** 2, n + 1, i):  # 因为是最小质因数，所以对于某个质数i，它所筛去的合数不可能小于 i ** 2
+            list_prime[j] = False
+end_time = time.time()
+run_time = end_time - start_time  # 监控运行时间
+print('%.10f' % run_time)
+```
+
+#### 欧拉筛。时间复杂度：O(n)
+
+```python
+import time
+start_time = time.time()
+# n = int(input('Please input a range:'))
+n = 10 ** 8
+num_list = [True] * (n + 3)
+prime_list = []  # 2单独处理，可以省去一半的操作 （偶数）
+for i in range(3, n + 1, 2):
+    if num_list[i]:
+        prime_list.append(i)
+    for j in prime_list:
+        if j * i > n:
+            break
+        num_list[j * i] = False
+        if i % j == 0:  # 如果i是j的倍数，那么 i * 其他大于 j 质数 在筛选 j 的倍数时候肯定会筛到，所以不用考虑
+            break
+# print([2] + prime_list)
+end_time = time.time()
+run_time = end_time - start_time
+print('%.10f' % run_time)
+
+```
+
+[^在一般中，两者速度相差不大，甚至埃氏筛可能更快。]: 
 
 
 
